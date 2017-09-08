@@ -759,6 +759,10 @@ def ConvolutionTranspose(filter_shape,        # shape of receptive field, e.g. (
     output_channels_shape = _as_tuple(num_filters)
     kernel_shape = _INFERRED + output_channels_shape + filter_shape # [I × O × m1 × m2 ×… × mn] 
 
+    output_full_shape = output_shape
+    if output_shape is not None:
+        output_full_shape = output_channels_shape + output_shape
+
     filter_rank = len(filter_shape)
     init_kernel = _initializer_for(init, Record(filter_rank=filter_rank, output_rank=-1))
     W = Parameter(kernel_shape, init=init_kernel, name='W')
@@ -778,8 +782,8 @@ def ConvolutionTranspose(filter_shape,        # shape of receptive field, e.g. (
         r = convolution_transpose(W, x,
                                   strides=strides,
                                   sharing=sharing,
-                                  auto_padding=pad,
-                                  output_shape=output_shape,
+                                  auto_padding=(False,) * reduction_rank + pad,
+                                  output_shape=output_full_shape,
                                   dilation=dilation,
                                   max_temp_mem_size_in_samples=max_temp_mem_size_in_samples)
         if bias:
