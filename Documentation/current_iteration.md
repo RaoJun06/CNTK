@@ -1,7 +1,7 @@
 # Aug-Sept 2017 Notes
 
 ## Breaking change
-### This iteration require cuDNN 6.0 in order to support dilated convolution and deterministic pooling. Please update your cuDNN.
+### This iteration requires cuDNN 6.0 in order to support dilated convolution and deterministic pooling. Please update your cuDNN.
 
 ## Documentation
 

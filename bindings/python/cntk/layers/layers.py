@@ -401,7 +401,7 @@ def Convolution(filter_shape,     # shape of receptive field, e.g. (3,3)
     pad          = _pad_to_shape(filter_shape, pad, 'pad')
     dilation     = _pad_to_shape(filter_shape, dilation, 'dilation')
 
-    if reduction_rank > 1:
+    if (reduction_rank != 0) or (reduction_rank != 1):
         raise NotImplementedError("Convolution: reduction_rank must be 0 or 1")
     if transpose_weight:
         raise NotImplementedError("Convolution: transpose_weight option currently not supported")
@@ -743,7 +743,7 @@ def ConvolutionTranspose(filter_shape,        # shape of receptive field, e.g. (
     pad          = _pad_to_shape(filter_shape, pad, 'pad')
     dilation     = _pad_to_shape(filter_shape, dilation, 'dilation')
 
-    if reduction_rank > 1:
+    if (reduction_rank != 0) or (reduction_rank != 1):
         raise NotImplementedError("ConvolutionTranspose: reduction_rank must be 0 or 1")
     if not sharing:
         NotImplementedError("ConvolutionTranspose: sharing option currently must be True")
