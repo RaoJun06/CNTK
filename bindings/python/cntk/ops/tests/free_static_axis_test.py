@@ -160,6 +160,17 @@ def test_free_static_times():
     assert np.array_equal(w_grad, np.asarray([[0.5, .5], [.2, .2]], dtype=np.float32))
 
 
+def test_free_static_pooling():
+    img = np.reshape(np.arange(16, dtype=np.float32), [1, 4, 4])
+    x = C.input_variable((C.FreeDimension, C.FreeDimension, C.FreeDimension))
+    avg_pooling = C.pooling(x, C.AVG_POOLING, (2, 2), (2, 2))
+    assert avg_pooling.shape == (C.FreeDimension, C.FreeDimension, C.FreeDimension)
+    assert np.array_equal(avg_pooling.eval({x:[img]}), np.asarray([[[[2.5, 4.5], [10.5, 12.5]]]], dtype=np.float32))
+
+    max_pooling = C.pooling(x, C.MAX_POOLING, (2, 2), (2, 2))
+    assert max_pooling.shape == (C.FreeDimension, C.FreeDimension, C.FreeDimension)
+    assert np.array_equal(max_pooling.eval({x: [img]}), np.asarray([[[[5, 7], [13, 15]]]], dtype=np.float32))
+
 from cntk.ops.functions import Function, UserFunction
 from .ops_test_utils import AA
 
